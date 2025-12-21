@@ -1,9 +1,6 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-;;; packages
-(package-initialize)
-
 ;; ensure use-package is available
 (require 'use-package)
 
@@ -32,6 +29,12 @@
 
 ;;; coding
 
+;; lua
+(setq treesit-language-source-alist
+      '((lua "https://github.com/MunifTanjim/tree-sitter-lua")))
+
+(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
+
 ;; font
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
@@ -42,6 +45,8 @@
 (setq-default prettify-symbols-mode nil)
 
 (global-display-line-numbers-mode 1)
+
+;; langs
 
 ;;; misc
 
