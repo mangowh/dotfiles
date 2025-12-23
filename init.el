@@ -1,3 +1,6 @@
+;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
+
+
 ;; custom.el file
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
