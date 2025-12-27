@@ -42,6 +42,11 @@
 ;; use-package
 (require 'use-package)
 
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
 (use-package company
   :ensure t)
 
@@ -50,6 +55,18 @@
   :bind (("M-o" . ace-window)))
 
 ;;; coding
+
+;; markdown
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
+
+;; python
+(setq python-shell-interpreter "python3")
+(add-hook 'python-mode-hook 'eglot-ensure) ;; C-h .
 
 ;; lua
 (setq treesit-language-source-alist
@@ -67,17 +84,6 @@
 (setq-default prettify-symbols-mode nil)
 
 (global-display-line-numbers-mode 1)
-
-;; langs
-
-;;; markdown
-
-(use-package markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown")
-  :bind (:map markdown-mode-map
-         ("C-c C-e" . markdown-do)))
 
 ;;; misc
 
