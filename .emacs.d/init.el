@@ -6,10 +6,19 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-;; autosave
+;; backups & autosave
+
+(make-directory (expand-file-name "backups" user-emacs-directory) t)
+(make-directory (expand-file-name "autosaves" user-emacs-directory) t)
 
 (setq backup-directory-alist
-      `(("." . ,(concat user-emacs-directory "backups"))))
+      `((".*" . ,(expand-file-name "backups/" user-emacs-directory))))
+
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
+
+(setq auto-save-list-file-prefix
+      (expand-file-name "autosaves/.saves-" user-emacs-directory))
 
 ;; help
 
@@ -32,6 +41,7 @@
                     :family "Atkinson Hyperlegible Mono"
                     :height 140)
 (setq-default line-spacing 0.2)
+
 ;; package
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -47,16 +57,48 @@
   :init
   (exec-path-from-shell-initialize))
 
+;;: autocomplete
+
+(global-completion-preview-mode 1)
+
+;; company
 (use-package company
   :ensure t)
+(add-hook 'after-init-hook 'global-company-mode)
 
-(use-package ace-window
+;;; LANGS
+
+;; web-mode
+(use-package web-mode
   :ensure t
-  :bind (("M-o" . ace-window)))
+  :mode
+  (("\\.phtml\\'" . web-mode)
+   ("\\.php\\'" . web-mode)
+   ("\\.tpl\\'" . web-mode)
+   ("\\.[agj]sp\\'" . web-mode)
+   ("\\.as[cp]x\\'" . web-mode)
+   ("\\.erb\\'" . web-mode)
+   ("\\.mustache\\'" . web-mode)
+   ("\\.djhtml\\'" . web-mode))
+   ("\\.html?\\'" . web-mode))
 
-;;; coding
+;; ASTRO
+(define-derived-mode astro-mode web-mode "astro")
+(setq auto-mode-alist
+      (append '((".*\\.astro\\'" . astro-mode))
+              auto-mode-alist))
 
-;; markdown
+;; Configure Eglot for Astro
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(astro-mode . ("astro-ls" "--stdio"
+                              :initializationOptions
+                              (:typescript (:tsdk "./node_modules/typescript/lib"))))))
+
+;; Auto-start Eglot for Astro files
+(add-hook 'astro-mode-hook 'eglot-ensure)
+
+;; MARKDOWN
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
@@ -64,11 +106,11 @@
   :bind (:map markdown-mode-map
          ("C-c C-e" . markdown-do)))
 
-;; python
+;; PYTHON
 (setq python-shell-interpreter "python3")
 (add-hook 'python-mode-hook 'eglot-ensure) ;; C-h .
 
-;; lua
+;; LUA
 (setq treesit-language-source-alist
       '((lua "https://github.com/MunifTanjim/tree-sitter-lua")))
 
@@ -85,12 +127,29 @@
 
 (global-display-line-numbers-mode 1)
 
-;;; misc
-
 ;; allow for shorter responses: "y" for yes and "n" for no.
 (setq read-answer-short t)
+(setq use-short-answers t)
 
+(add-to-list 'default-frame-alist '(tool-bar-lines . 0)) ;; fix to remove tool bar from current frame
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 (column-number-mode 1)
 (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
 (desktop-save-mode 1)
+
+(fido-vertical-mode t)
+
+(save-place-mode 1)
+(savehist-mode 1)
+
+(repeat-mode 1)  ;; C-x o o o to keep switching windows
+
+;; recent files https://www.emacswiki.org/emacs/RecentFiles
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+(setq confirm-kill-emacs 'y-or-n-p)
