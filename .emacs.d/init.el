@@ -57,9 +57,11 @@
   :init
   (exec-path-from-shell-initialize))
 
-;;: autocomplete
-
-(global-completion-preview-mode 1)
+;; magit
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status)
+)
 
 ;; company
 (use-package company
@@ -145,6 +147,8 @@
 (savehist-mode 1)
 
 (repeat-mode 1)  ;; C-x o o o to keep switching windows
+
+(global-completion-preview-mode 1) ;; inline autocomplete preview
 
 ;; recent files https://www.emacswiki.org/emacs/RecentFiles
 (recentf-mode 1)
