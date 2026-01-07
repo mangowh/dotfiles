@@ -26,6 +26,8 @@
 
 ;;; ui
 
+(setq mac-right-option-modifier 'none) ;; macos consider right alt as not a modifier
+
 ;; moving between buffers
 (windmove-default-keybindings 'meta)
 
