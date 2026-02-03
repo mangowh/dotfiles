@@ -61,6 +61,12 @@
 ;;; use-package
 (require 'use-package)
 
+;;; dumb-jump
+;;; https://github.com/jacktasia/dumb-jump
+(use-package dumb-jump
+  :ensure t)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
 ;;; load env from current user shell
 ;;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell
@@ -155,3 +161,5 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (setq confirm-kill-emacs 'y-or-n-p)
+(setq password-cache t)
+
