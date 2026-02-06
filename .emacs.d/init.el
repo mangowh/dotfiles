@@ -18,12 +18,6 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
 
-(setq auto-save-list-file-prefix
-      (expand-file-name "autosaves/.saves-" user-emacs-directory))
-
-;;; help
-(which-key-mode t)
-
 ;;; ui
 (setq mac-right-option-modifier 'none) ;; macos consider right alt as not a modifier
 
@@ -37,7 +31,7 @@
 ;;; custom font
 (set-face-attribute 'default nil
                     :family "Atkinson Hyperlegible Mono"
-                    :height 140)
+                    :height 130)
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
@@ -101,8 +95,8 @@
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
    ("\\.mustache\\'" . web-mode)
-   ("\\.djhtml\\'" . web-mode))
-   ("\\.html?\\'" . web-mode))
+   ("\\.djhtml\\'" . web-mode)
+   ("\\.html?\\'" . web-mode)))
 
 ;;; markdown
 (use-package markdown-mode
@@ -136,22 +130,45 @@
 (setq read-answer-short t)
 (setq use-short-answers t)
 
-(add-to-list 'default-frame-alist '(tool-bar-lines . 0)) ;; fix to remove tool bar from current frame
+;;; remove tool bar from current frame
+(add-to-list 'default-frame-alist '(tool-bar-lines . 0)) 
+
+;;; disable top menu bar and tool bar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(column-number-mode 1)
-(global-hl-line-mode 1)
-(global-auto-revert-mode 1)
-(desktop-save-mode 1)
 
+;;; show line and column number
+(line-number-mode t)
+(column-number-mode t)
+
+;;; highlight current buffer
+(global-hl-line-mode t)
+
+;;; keep buffers in sync with disk
+;;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
+(global-auto-revert-mode t)
+
+;;; save desktop state
+(desktop-save-mode t)
+
+;;; minibuffer autocompletion fido 
 (fido-vertical-mode t)
 
-(save-place-mode 1)
-(savehist-mode 1)
+;;; restore last cursor position when reopening a file
+(save-place-mode t)
 
-(repeat-mode 1)  ;; C-x o o o to keep switching windows
+;;; save minibuffer history
+(savehist-mode t)
 
-(global-completion-preview-mode 1) ;; inline autocomplete preview
+;;; enable repeating of certain commands
+;; e.g. C-x o o o to keep switching windows
+(repeat-mode t)
+
+;;; inline autocomplete preview
+(global-completion-preview-mode t)
+
+;;; help
+(which-key-mode t)
 
 ;;; recent files
 ;;; https://www.emacswiki.org/emacs/RecentFiles
@@ -162,4 +179,3 @@
 
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq password-cache t)
-
