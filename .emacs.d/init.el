@@ -140,7 +140,7 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;; highlight current buffer
+;; highlight current line
 (global-hl-line-mode t)
 
 ;; keep buffers in sync with disk
@@ -189,5 +189,7 @@
 ;; y and n instead of yes and no
 (setq confirm-kill-emacs 'y-or-n-p)
 
-;; cache password
-(setq password-cache t)
+;; Cache password
+(setq password-cache t
+      password-cache-expiry 3600 ;; Expire after one hour
+      )
