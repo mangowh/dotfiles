@@ -26,17 +26,17 @@
 (setq ring-bell-function #'ignore)
 
 ;; custom theme
-(load-theme 'manoj-dark t)
+(load-theme 'modus-vivendi t)
 
 ;; custom font
-(set-face-attribute 'default nil
-                    :family "Atkinson Hyperlegible Mono"
-                    :height 130)
+(add-to-list 'default-frame-alist
+             '(font . "Iosevka")
+             '(height . 130))
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default line-spacing 0.2)
-(setq-default fill-column 80)
+(setq-default fill-column 8)
 (setq-default truncate-lines t)
 
 (setq-default prettify-symbols-mode nil)
@@ -63,10 +63,10 @@
 
 ;; load env from current user shell
 ;; https://github.com/purcell/exec-path-from-shell
-(use-package exec-path-from-shell
-  :ensure t
-  :init
-  (exec-path-from-shell-initialize))
+;; (use-package exec-path-from-shell
+;;   :ensure t
+;;   :init
+;;   (exec-path-from-shell-initialize))
 
 ;; magit
 (use-package magit
