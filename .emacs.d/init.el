@@ -193,3 +193,10 @@
 (setq password-cache t
       password-cache-expiry 3600 ;; Expire after one hour
       )
+
+;; Disable lockfiles
+(setq
+ create-lockfiles nil
+ remote-file-name-inhibit-locks t
+ )
+
