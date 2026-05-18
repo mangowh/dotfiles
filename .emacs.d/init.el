@@ -122,8 +122,6 @@
 ;; display line number
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)
-;; relative line number
-(setq display-line-numbers-type 'relative)
 
 ;; allow for shorter responses: "y" for yes and "n" for no.
 (setq read-answer-short t)
