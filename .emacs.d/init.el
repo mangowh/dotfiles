@@ -12,11 +12,14 @@
 ;; backups & autosave
 (make-directory (expand-file-name "backups" user-emacs-directory) t)
 (make-directory (expand-file-name "autosaves" user-emacs-directory) t)
+(make-directory (expand-file-name "lockfiles" user-emacs-directory) t)
 
-(setq backup-directory-alist
-      `((".*" . ,(expand-file-name "backups/" user-emacs-directory))))
+(setq lock-file-name-transforms
+      '(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/lockfiles/\\1" t)))
 (setq auto-save-file-name-transforms
-      `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
+      '(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/autosaves/\\1" t)))
+(setq backup-directory-alist
+      '((".*" . "~/.emacs.d/backups/")))
 
 ;; macos consider right alt as not a modifier
 (setq mac-right-option-modifier 'none)
@@ -191,10 +194,3 @@
 (setq password-cache t
       password-cache-expiry 3600 ;; Expire after one hour
       )
-
-;; Disable lockfiles
-(setq
- create-lockfiles nil
- remote-file-name-inhibit-locks t
- )
-
